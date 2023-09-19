@@ -1,0 +1,90 @@
+import bpy
+import winsound
+import time
+
+def beep():
+        duration = 1000 # milliseconds
+        freq = 440 # Hzs
+        winsound.Beep(freq,duration)
+        
+counter = 0
+        
+def update():
+    global counter
+    counter += 1
+    bpy.context.active_object.location.x -= 0.1
+    bpy.context.active_object.scale.x += 0.05
+    bpy.context.active_object.scale.y += 0.05
+    bpy.context.active_object.scale.z += 0.05
+    if counter >= 100:
+        return None
+    return 0.05
+
+class MyOperator(bpy.types.Operator):
+    """The Tooltip"""
+    bl_idname = "my_operator.test_print"
+    bl_label = "Operator Test"
+    
+    def execute(self, context):
+        global counter
+        print("Test Operator"+" testString")
+        # duration = 1000 # milliseconds
+        # freq = 440 # Hzs
+        # winsound.Beep(freq,duration)
+        # self.report({'WARNING'},"Warning Message")
+        self.report({'INFO'},"Information Message")
+        
+        activeObject = bpy.context.active_object
+        
+        # start_frame = 1
+        # activeObject.keyframe_insert("location", frame=start_frame)
+        
+        # activeObject.location.x = 5
+        # activeObject.location.y = 5
+        
+        # last_frame = 250
+        # activeObject.keyframe_insert("location", frame=last_frame)
+        
+        #for x in range(10):
+         #   activeObject.location.x += 1
+            # self.report({'INFO'},"Information Message")
+         #   bpy.context.scene.frame_set(1)
+            # time.sleep(0.1)
+        counter=0
+        bpy.app.timers.register(update)
+        
+        # bpy.ops.transform.translate(value=(0, 1, 0), orient_type='GLOBAL',
+        # orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL',
+       #   constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, 
+        #  proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False,
+        #   use_proportional_projected=False, snap=False, snap_elements={'INCREMENT'}, use_snap_project=False, 
+        #   snap_target='CLOSEST', use_snap_self=True, use_snap_edit=True, use_snap_nonedit=True, 
+         #  use_snap_selectable=False, release_confirm=True)
+        return {'FINISHED'}
+
+class TestPanel(bpy.types.Panel):
+   bl_label = "Test Panel"
+   bl_idname = "PT_TestPanel"
+   bl_space_type = 'VIEW_3D'
+   bl_region_type = 'UI'
+   bl_category = 'My 1st Addon'
+   
+   def draw(self, context):
+        layout = self.layout        
+        row = layout.row()
+        # row.operator("mesh.primitive_cube_add",text="Add an object", icon= 'CUBE')
+        row.operator("my_operator.test_print",text="Add an object", icon= 'CUBE')
+        row = layout.row()
+
+        
+def register():
+    bpy.utils.register_class(TestPanel)
+    print('Classes Registered')
+    bpy.utils.register_class(MyOperator)
+
+def unregister():
+    bpy.utils.unregister_class(TestPanel)
+    bpy.utils.unregister_class(MyOperator)
+    
+if __name__ == "__main__":
+    register()
