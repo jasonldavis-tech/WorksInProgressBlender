@@ -1,3 +1,4 @@
 Most Videos in here are Rendered wit Blender and are MIT License, Free to use
 Some Videos use effects from Video Maker on Android - labeled Video.Guru on most if not all,
   I am not sure they can be MIT license as the effects might be closer to propriatary thought I am not a lawyer
+NeutronStarWithVideoEffects is one of the ones with effects thus might not be able to fall under MIT license
